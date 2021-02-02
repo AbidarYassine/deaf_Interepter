@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nationality_array">
+        <item>select your country</item>
+        <item>Marocaine</item>
+        <item>Arabi Saoudi</item>
+        <item>Test Country</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+</resources>

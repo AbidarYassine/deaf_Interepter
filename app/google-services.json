@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "593334685862",
+    "firebase_url": "https://handtranslate1-default-rtdb.firebaseio.com",
+    "project_id": "handtranslate1",
+    "storage_bucket": "handtranslate1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593334685862:android:f726cf366f21f43e7da467",
+        "android_client_info": {
+          "package_name": "com.fstg.deafinterepter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593334685862-9rqnl1rbvfeuvnjfgbljk9v3g3e1t4o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFVv2lgSz1H8glNVcQJyIGVQaO_GCtrpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593334685862-9rqnl1rbvfeuvnjfgbljk9v3g3e1t4o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593334685862:android:1754ceb50c6107467da467",
+        "android_client_info": {
+          "package_name": "com.handtranslate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593334685862-9rqnl1rbvfeuvnjfgbljk9v3g3e1t4o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFVv2lgSz1H8glNVcQJyIGVQaO_GCtrpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593334685862-9rqnl1rbvfeuvnjfgbljk9v3g3e1t4o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
