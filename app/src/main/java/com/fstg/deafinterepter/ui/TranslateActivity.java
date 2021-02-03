@@ -1,19 +1,28 @@
 package com.fstg.deafinterepter.ui;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+
 import com.fstg.deafinterepter.R;
+
 import com.fstg.deafinterepter.ml.Model;
 import com.fstg.deafinterepter.utils.CategoryMl;
 
@@ -22,9 +31,12 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
@@ -49,6 +61,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +89,9 @@ public class TranslateActivity extends Activity implements CameraBridgeViewBase.
     private static final float PROBABILITY_MEAN = 0.0f;
     private static final float PROBABILITY_STD = 255.0f;
     private Bitmap bitmap;
+
     private List<String> labels;
+    ImageView imageView;
     TextView classitext;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -102,19 +117,14 @@ public class TranslateActivity extends Activity implements CameraBridgeViewBase.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_translate);
         setupView();
-//        try {
-//            tflite = new Interpreter(loadmodelfile(this));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.camera_id);
-//        mOpenCvCameraView.setCameraIndex(1);
+        mOpenCvCameraView = findViewById(R.id.camera_id);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
 //        mOpenCvCameraView.setLayoutDirection(View.IMPORTANT_FOR_AUTOFILL_AUTO);
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
     private void setupView() {
+        imageView = findViewById(R.id.imageView);
         classitext = findViewById(R.id.classitext);
     }
 
@@ -145,7 +155,8 @@ public class TranslateActivity extends Activity implements CameraBridgeViewBase.
     }
 
     public void onCameraViewStarted(int width, int height) {
-        mRgba = new Mat(height, width, CvType.CV_8UC4);
+//        mRgba = new Mat(100, 100, CvType.CV_8UC4);
+
     }
 
 
@@ -155,31 +166,27 @@ public class TranslateActivity extends Activity implements CameraBridgeViewBase.
         mRgba.release();
     }
 
+    public static Mat rotate(Mat src) {
+        Mat transpose = new Mat();
+        Core.transpose(src, transpose);
+        Mat flip = new Mat();
+        Core.flip(transpose, flip, 0);
+
+        return flip;
+    }
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mRgba = inputFrame.rgba();
-//        int imageTensorIndex = 0;
-//        int[] imageShape = tflite.getInputTensor(imageTensorIndex).shape(); // {1, height, width, 3}
-//        imageSizeY = imageShape[1];
-//        imageSizeX = imageShape[2];
-//        DataType imageDataType = tflite.getInputTensor(imageTensorIndex).dataType();
-//
-//        int probabilityTensorIndex = 0;
-//        int[] probabilityShape =
-//                tflite.getOutputTensor(probabilityTensorIndex).shape(); // {1, NUM_CLASSES}
-//        DataType probabilityDataType = tflite.getOutputTensor(probabilityTensorIndex).dataType();
-//
-//        inputImageBuffer = new TensorImage(imageDataType);
-//        outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape, probabilityDataType);
-//        probabilityProcessor = new TensorProcessor.Builder().add(getPostprocessNormalizeOp()).build();
-//        Bitmap bitmap = createBitmapfromMat(mRgba);
-//        inputImageBuffer = loadImage(bitmap);
-//
-//        tflite.run(inputImageBuffer.getBuffer(), outputProbabilityBuffer.getBuffer().rewind());
-//        showresult();
+        mRgba = inputFrame.gray();
+        Mat mRgbaT = mRgba.t();
+        Core.flip(mRgba.t(), mRgbaT, 1);
+        Imgproc.resize(mRgbaT, mRgbaT, mRgba.size());
+        Bitmap bitmap = createBitmapfromMat(mRgbaT);
+//        bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.img2);
+        runOnUiThread(() -> {
+            imageView.setImageBitmap(bitmap);
+        });
         try {
-            Bitmap bitmap = createBitmapfromMat(mRgba);
             Model model = Model.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
@@ -188,32 +195,31 @@ public class TranslateActivity extends Activity implements CameraBridgeViewBase.
             // Runs model inference and gets result.
             Model.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
-            CategoryMl categories = new CategoryMl();
-            float max = probability.get(0).getScore();
+            Map<String, Float> labeledProbability = new HashMap<>();
+            // put label ans score into Map
             for (Category category : probability) {
-                if (category.getScore() > max) {
-                    categories.setLabel(category.getLabel());
-                    categories.setScore(category.getScore());
-                } else {
-                    categories.setLabel(probability.get(0).getLabel());
-                    categories.setScore(probability.get(0).getScore());
+                labeledProbability.put(category.getLabel(), category.getScore());
+            }
+            float maxValueInMap = (Collections.max(labeledProbability.values()));
+
+            for (Map.Entry<String, Float> entry : labeledProbability.entrySet()) {
+                if (entry.getValue() == maxValueInMap) {
+                    runOnUiThread(() -> {
+                        classitext.setText(entry.getKey());
+                        Log.i("TAG R", entry.getKey());
+                    });
                 }
             }
-            runOnUiThread(() -> {
-                classitext.setText(categories.getLabel());
-            });
-            Log.i("TAGe", probability.toString());
-
-            // Releases model resources if no longer used.
-            model.close();
-        } catch (IOException e) {
-            Log.i("TAGe", e.getLocalizedMessage());
+            Thread.sleep(500);
+        } catch (Exception e) {
+            Log.i("TAG E", e.getLocalizedMessage());
         }
-
-        return mRgba;
+        return mRgbaT;
     }
 
+
     public Bitmap createBitmapfromMat(Mat snap) {
+//        Imgproc.cvtColor(snap, snap, Imgproc.COLOR_RGB2GRAY);
         Bitmap bp = Bitmap.createBitmap(snap.cols(), snap.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(snap, bp);
         return bp;
