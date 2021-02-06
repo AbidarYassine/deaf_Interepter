@@ -1,5 +1,5 @@
 ## deaf_Interepter
-#Dependencies used 
+# Dependencies used 
     implementation 'com.google.firebase:firebase-analytics:18.0.1'
     implementation 'com.google.firebase:firebase-firestore:22.0.1'
     implementation 'com.google.firebase:firebase-auth:20.0.2'
