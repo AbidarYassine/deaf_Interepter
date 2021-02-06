@@ -23,7 +23,6 @@ public class HomeActivity extends AppCompatActivity {
 //        User student = (User) getIntent().getSerializableExtra("user");
         btn_learning.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, AllTutorActivity.class);
-//            intent.putExtra("user", student);
             startActivity(intent);
         });
         btn_translate.setOnClickListener(v -> {

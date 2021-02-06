@@ -30,8 +30,12 @@ org/opencv/objdetect/CascadeClassifier.java
  org.opencv.objdetect.CascadeClassifier
 org/opencv/core/MatOfInt.java
  org.opencv.core.MatOfInt
-org/opencv/video/BackgroundSubtractorMOG2.java
- org.opencv.video.BackgroundSubtractorMOG2
+org/opencv/android/JavaCameraView.java
+ org.opencv.android.JavaCameraView
+ org.opencv.android.JavaCameraView$1
+ org.opencv.android.JavaCameraView$CameraWorker
+ org.opencv.android.JavaCameraView$JavaCameraFrame
+ org.opencv.android.JavaCameraView$JavaCameraSizeAccessor
 org/opencv/core/Rect2d.java
  org.opencv.core.Rect2d
 org/opencv/core/MatOfKeyPoint.java
@@ -74,8 +78,8 @@ org/opencv/core/CvException.java
  org.opencv.core.CvException
 org/opencv/features2d/AgastFeatureDetector.java
  org.opencv.features2d.AgastFeatureDetector
-org/opencv/video/Video.java
- org.opencv.video.Video
+org/opencv/utils/Converters.java
+ org.opencv.utils.Converters
 org/opencv/engine/OpenCVEngineInterface.java
  org.opencv.engine.OpenCVEngineInterface
  org.opencv.engine.OpenCVEngineInterface$Default
@@ -289,11 +293,7 @@ org/opencv/core/Point.java
  org.opencv.core.Point
 org/opencv/ml/StatModel.java
  org.opencv.ml.StatModel
-org/opencv/utils/Converters.java
- org.opencv.utils.Converters
-org/opencv/android/JavaCameraView.java
- org.opencv.android.JavaCameraView
- org.opencv.android.JavaCameraView$1
- org.opencv.android.JavaCameraView$CameraWorker
- org.opencv.android.JavaCameraView$JavaCameraFrame
- org.opencv.android.JavaCameraView$JavaCameraSizeAccessor
+org/opencv/video/BackgroundSubtractorMOG2.java
+ org.opencv.video.BackgroundSubtractorMOG2
+org/opencv/video/Video.java
+ org.opencv.video.Video

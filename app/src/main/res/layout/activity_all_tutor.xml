@@ -78,19 +78,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/custome_btn"
-            android:clickable="true"
-            android:onClick="prevuis_Aactivity"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.108"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/abc_vector_test" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

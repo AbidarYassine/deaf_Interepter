@@ -11,7 +11,7 @@ import org.opencv.video.BackgroundSubtractor;
 
 public class BackgroundSubtractorMOG2 extends BackgroundSubtractor {
 
-    protected BackgroundSubtractorMOG2(long addr) { super(addr); }
+    public BackgroundSubtractorMOG2(long addr) { super(addr); }
 
     // internal usage only
     public static BackgroundSubtractorMOG2 __fromPtr__(long addr) { return new BackgroundSubtractorMOG2(addr); }

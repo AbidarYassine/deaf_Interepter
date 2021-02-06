@@ -27,24 +27,42 @@
         android:theme="@style/Theme.DeafInterepter">
         <activity
             android:name=".ui.TranslateActivity"
+            android:screenOrientation="locked"></activity>
+        <activity
+            android:name=".ui.LoginTutorActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.EditTutorActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.RegisterTutorActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.InfoTutorActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.ForgotPassword"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.MainActivity"
             android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginTutorActivity" />
-        <activity android:name=".ui.EditTutorActivity" />
-        <activity android:name=".ui.RegisterTutorActivity" />
-        <activity android:name=".ui.InfoTutorActivity" />
-        <activity android:name=".ui.ForgotPassword" />
-        <activity android:name=".ui.MainActivity">
-
-        </activity>
-        <activity android:name=".ui.HomeActivity" />
-        <activity android:name=".ui.AllTutorActivity" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.RegisterActivity" />
+        <activity
+            android:name=".ui.HomeActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.AllTutorActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:screenOrientation="locked" />
     </application>
 
 </manifest>
